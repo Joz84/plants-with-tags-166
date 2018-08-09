@@ -1,0 +1,38 @@
+<div class="banner" style="background-image: linear-gradient(-225deg, rgba(0,101,168,0.6) 0%, rgba(0,36,61,0.6) 50%), url('<%= @garden.banner_url %>')">
+  <h1><%= @garden.name %></h1>
+</div>
+
+<div class="container">
+  <div class="row">
+    <% @garden.plants.each do |plant| %>
+      <div class="col-sm-4">
+        <div class="card" style="background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.2)), url('<%= plant.image_url %>');">
+
+          <div class="card-tags">
+            <% plant.tags.each do |tag| %>
+              <span><%= tag.name %></span>
+            <% end %>
+          <%= link_to "add tag", new_plant_plant_tag_path(plant) %>
+          </div>
+          <div class="card-description">
+            <h2><%= plant.name %></h2>
+          </div>
+          <%= link_to "+", plant_path(plant), method: :delete, data: { confirm: "Are you sure?" }, class: "card-remove-link" %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-sm-4 col-sm-offset-4">
+      <h4>Add a plant:</h4>
+      <%= simple_form_for [ @garden, @plant ] do |f| %>
+        <%= f.input :name, placeholder: "Palm tree" %>
+        <%= f.input :image_url, placeholder: "https://raw.githubusercontent.com/lewagon/fullstack-images/master/rails/parks-and-plants/philo.jpg" %>
+        <%= f.submit "Add", class: "btn btn-primary" %>
+      <% end %>
+    </div>
+  </div>
+</div>
